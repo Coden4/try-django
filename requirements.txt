@@ -1,2 +1,4 @@
 Django==4.3.6
+gunicorn
+psycopg2-binary
 django-dotenv
