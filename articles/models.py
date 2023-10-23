@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 
-from .utils import slugify_title
+from .utils import slugify_instance_title
 
 
 class Article(models.Model):
@@ -14,18 +14,18 @@ class Article(models.Model):
         auto_now=False, auto_now_add=False, null=True, blank=True)
 
     # can override
-    def save(self) -> None:
-        super().save()
+    def save(self, *args, **kwargs) -> None:
+        super().save(*args, **kwargs)
 
 
 def article_pre_save(instance, *args, **kwargs):
     if instance.slug is None:
-        slugify_title(instance, save=False)
+        slugify_instance_title(instance, save=False)
 
 
 def article_post_save(instance, created, *args, **kwargs):
     if created:
-        slugify_title(instance, save=True)
+        slugify_instance_title(instance, save=True)
 
 
 pre_save.connect(article_pre_save, sender=Article)
