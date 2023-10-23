@@ -40,3 +40,8 @@ class ArticleTestCaes(TestCase):
 
         unique_slugs = list(set(slugs))
         self.assertEqual(len(slugs), len(unique_slugs))
+
+    def test_slugify_instance_title_redux(self):
+        slugs = Article.objects.all().values_list('slug', flat=True)
+        unique_slugs = list(set(slugs))
+        self.assertEqual(len(slugs), len(unique_slugs))
