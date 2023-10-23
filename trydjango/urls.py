@@ -33,8 +33,8 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', view=views.home, name='home'),
-    path('articles/create/', view=article_create_view, name='create_article'),
-    path('articles/<int:id>/', view=article_detail_view, name='article_detail'),
+    path('articles/create/', view=article_create_view, name='article-create'),
+    path('articles/<slug:slug>/', view=article_detail_view, name='article-detail'),
     path('login/', view=login_view, name='login'),
     path('logout/', view=logout_view, name='logout'),
     path('register/', view=register_view, name='register'),

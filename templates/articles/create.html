@@ -8,6 +8,6 @@
         </form>
     {% else %}
         <p>Article created!!!</p>
-        <a href="/articles/{{ article.id }}">{{ article.title }} - {{ article.content }}</a>
+        <a href="{{ article.get_absolute_url }}">{{ article.title }} - {{ article.content }}</a>
     {% endif %}
 {% endblock content %}
