@@ -40,8 +40,5 @@ def article_detail_view(request, slug=None):
 
 def article_search_view(request):
     query = request.GET.get('q')
-    articles = Article.objects.all()
-    if query is not None:
-        lookups = Q(title__icontains=query) | Q(content__icontains=query)
-        articles = Article.objects.filter(lookups)
+    articles = Article.objects.search(query=query)
     return render(request, 'articles/search.html', context={'articles': articles})
