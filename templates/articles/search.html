@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if not articles %}
+        <p>No articles found</p>
+    {% else %}
+        <ol>
+            {% for article in articles %}
+                {% if article.title %}
+                    <li>
+                        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+    {% endif %}
+{% endblock content %}
