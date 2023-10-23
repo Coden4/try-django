@@ -19,7 +19,8 @@ from django.urls import path
 
 from articles.views import (
     article_detail_view,
-    article_create_view
+    article_create_view,
+    article_search_view
 )
 
 from accounts.views import (
@@ -33,6 +34,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', view=views.home, name='home'),
+    path('articles/', view=article_search_view, name='article-search'),
     path('articles/create/', view=article_create_view, name='article-create'),
     path('articles/<slug:slug>/', view=article_detail_view, name='article-detail'),
     path('login/', view=login_view, name='login'),

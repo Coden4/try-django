@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import Http404
+from django.db.models import Q
 
 from .models import Article
 from .forms import ArticleForm
@@ -35,3 +36,12 @@ def article_detail_view(request, slug=None):
     }
 
     return render(request, "articles/details.html", context=context)
+
+
+def article_search_view(request):
+    query = request.GET.get('q')
+    articles = Article.objects.all()
+    if query is not None:
+        lookups = Q(title__icontains=query) | Q(content__icontains=query)
+        articles = Article.objects.filter(lookups)
+    return render(request, 'articles/search.html', context={'articles': articles})
