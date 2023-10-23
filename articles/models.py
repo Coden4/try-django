@@ -1,8 +1,31 @@
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.urls import reverse
+from django.db.models import Q, QuerySet
 
 from .utils import slugify_instance_title
+
+
+class ArticleQuerySet(models.QuerySet):
+    """
+        For adding more depth in query set filtering
+    """
+
+    def search(self, query=None):
+        if query is None or query == '':
+            return self.none()
+
+        lookups = Q(title__icontains=query) | Q(content__icontains=query)
+
+        return self.filter(lookups)
+
+
+class ArticleManager(models.Manager):
+    def get_queryset(self) -> ArticleQuerySet:
+        return ArticleQuerySet(self.model, using=self._db)
+
+    def search(self, query=None) -> ArticleQuerySet:
+        return self.get_queryset().search(query=query)
 
 
 class Article(models.Model):
@@ -13,6 +36,9 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     publish_at = models.DateField(
         auto_now=False, auto_now_add=False, null=True, blank=True)
+
+    # custom objects manager
+    objects = ArticleManager()
 
     def get_absolute_url(self):
         return reverse('article-detail', kwargs={'slug': self.slug})
