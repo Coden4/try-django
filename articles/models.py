@@ -19,13 +19,11 @@ class Article(models.Model):
 
 
 def article_pre_save(instance, *args, **kwargs):
-    print('in pre')
     if instance.slug is None:
         slugify_title(instance, save=False)
 
 
 def article_post_save(instance, created, *args, **kwargs):
-    print('in post')
     if created:
         slugify_title(instance, save=True)
 
