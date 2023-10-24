@@ -7,10 +7,6 @@ from .utils import slugify_instance_title
 
 
 class ArticleQuerySet(models.QuerySet):
-    """
-        For adding more depth in query set filtering
-    """
-
     def search(self, query=None):
         if query is None or query == '':
             return self.none()
