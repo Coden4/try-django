@@ -1,7 +1,8 @@
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.urls import reverse
-from django.db.models import Q, QuerySet
+from django.db.models import Q
+from django.conf import settings
 
 from .utils import slugify_instance_title
 
@@ -25,6 +26,12 @@ class ArticleManager(models.Manager):
 
 
 class Article(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
     title = models.CharField(max_length=255)
     content = models.TextField()
     slug = models.SlugField(null=True, blank=True)
